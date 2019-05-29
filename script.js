@@ -5,7 +5,7 @@ var app = express();
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    passward: '',
+    password: '', //if need, put your password here
     database: 'perfectoDB'
 });
 
@@ -18,14 +18,15 @@ connection.connect(function(error){
 });
 
 app.get('/', function(req, resp){
-    //mysql here
-    // connection.query("SELECT * FROM perfectoDB", function(error, rows, fields){
-    //     if(!!error){
-    //         console.log('Error in query');
-    //     }else{
-    //         console.log('Successful query');
-    //     }
-    // })
+    // mysql here
+    connection.query("SELECT * FROM Books", function(error, rows, fields){
+        if(error){
+            console.log('Error in query');
+        }else{
+            console.log('Successful query\n');
+            console.log(rows);
+        }
+    })
 });
 
-app.listen(1337);
+app.listen(1234);
