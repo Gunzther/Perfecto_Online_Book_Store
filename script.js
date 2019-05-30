@@ -6,6 +6,8 @@ var fs = require("fs");
 var bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname + './files'));
+
 
 function getConnection() {
   return mysql.createConnection({
@@ -15,6 +17,7 @@ function getConnection() {
     database: "perfectoDB"
   });
 }
+
 var connection = getConnection();
 
 app.use("/cssFiles", express.static(__dirname + "/css"));
@@ -28,16 +31,18 @@ connection.connect(function(error) {
   }
 });
 
-app.get("/customers", function(req, res) {
+app.get("/book_detail_rows", function(req, res) {
   // mysql here
-  connection.query("SELECT * FROM customers", function(error, rows, fields) {
+  connection.query("SELECT * FROM book_detail", function(error, rows, fields) {
     if (error) {
       console.log("Error in query");
     } else {
       res.send(rows);
     }
+    
   });
 });
+
 
 app.get("/", function(req, res) {
   res.sendFile("index.html", { root: path.join(__dirname, "./files") });
@@ -55,7 +60,6 @@ app.get(/^(.+)$/, function(req, res) {
       });
     }
   } catch (err) {
-    console.log(err);
     res.sendFile("404.html", { root: path.join(__dirname, "./files") });
   }
 });
@@ -84,7 +88,7 @@ app.post("/cart_fin", (req, res) => {
         res.sendStatus(500);
         return;
       }
-      console.log("id ----> ", results.insertedId);
+      console.log("The customerID is: ", results.insertId);
     }
   );
   res.end();

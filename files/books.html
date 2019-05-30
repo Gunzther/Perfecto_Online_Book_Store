@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(() => {
+     
+            $.ajax({
+                url: 'book_detail_rows/',
+                type: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    console.log('ajaxxxx!', data),
+                    $.each(data, function (i, val) {
+                    var tr = "<tr>" +
+                        "<td>"+ (i + 1) + "</td>" +
+                        "<td>"+ val.BookName  + "</td>" +
+                        "<td>"+ val.BookPrice + "</td>" +
+                        "<td>"+ val.ISBN + "</td>" +
+                        "</tr>";
+                    $(tr).appendTo("tbody");
+                });
+                }
+            });
+        
+    });
+</script>
+    <head>
+        <title>My db rows</title>
+    </head>
+
+    <body>
+        <div id="book_detail_table"></div>
+        <table>
+            <tbody id="items">
+                <tr><td>List</td>
+                <td>Book Name</td>
+                <td>Book Price</td>
+                <td>ISBN</td>
+                </tr>
+            </tbody>
+        </table>
+    </body> 
+</html>
