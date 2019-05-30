@@ -44,7 +44,7 @@ body {
 }
 
 #banner-img {
-  width: 800px;
+  width: 700px;
 }
 
 .tm-welcome-img {
@@ -149,7 +149,6 @@ body {
 }
 
 .tm-body {
-  margin-top: 40px;
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
@@ -624,7 +623,7 @@ figure.effect-bubba:hover p {
 
 @media (min-width: 992px) {
   .container-fluid {
-    margin-top: 120px;
+    margin-top: 70px;
     max-width: 992px;
   }
   .tm-sidebar {
