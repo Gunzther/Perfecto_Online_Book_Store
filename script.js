@@ -39,6 +39,10 @@ app.get("/customers", function(req, res) {
   });
 });
 
+app.get("/", function(req, res) {
+  res.sendFile("index.html", { root: path.join(__dirname, "./files") });
+});
+
 app.get(/^(.+)$/, function(req, res) {
   try {
     if (
@@ -86,4 +90,4 @@ app.post("/cart_fin", (req, res) => {
   res.end();
 });
 
-app.listen(100);
+app.listen(1234);
