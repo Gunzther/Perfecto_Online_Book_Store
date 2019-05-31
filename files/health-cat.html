@@ -9,7 +9,7 @@
   <script type="text/javascript">
     $(document).ready(() => {
       $.ajax({
-        url: "book_detail_rows_Literature_and_Fiction/",
+        url: "book_detail_rows_Health_and_Well-Being/",
         type: "GET",
         dataType: "json",
         success: data => {
@@ -86,7 +86,7 @@
             ' Baht</p><h6 style="margin-top: 20px;">' +
             bookName +
             "</h6></figcaption></figure></a >";
-          $(tr).appendTo(document.getElementById("book-shelf"));
+          $(item).appendTo(document.getElementById("book-shelf"));
         }
       });
     });
