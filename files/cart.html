@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/cssFiles/cart-style.css" />
-
+    <link rel="stylesheet" href="/cssFiles/fin.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -144,7 +144,12 @@
               <input type="checkbox" checked="checked" name="sameadr" />
               Shipping address same as billing
             </label>
-            <input type="submit" value="Continue to checkout" class="btn" />
+            <input
+              type="submit"
+              value="Continue to checkout"
+              class="btn"
+              href="#popup1"
+            />
           </form>
         </div>
       </div>
@@ -164,6 +169,15 @@
           <p>
             Total <span class="price" style="color:black"><b>$30</b></span>
           </p>
+        </div>
+      </div>
+    </div>
+    <div id="popup1" class="overlay">
+      <div class="popup">
+        <h2>Thank you for shopping with us !</h2>
+        <a class="close" href="#">&times;</a>
+        <div class="content">
+          Your tracking number is ...
         </div>
       </div>
     </div>
