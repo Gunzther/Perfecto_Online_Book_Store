@@ -145,7 +145,6 @@ app.post("/order_detial", (req, res) => {
 });
 // res.redirect("/index");
 
-
 app.post("/put_to_cart", (req, res) => {
   console.log("posting" + req);
   console.log("isbn: " + req.body.isbn);
