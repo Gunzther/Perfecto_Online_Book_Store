@@ -6,20 +6,52 @@
     $(document).ready(() => {
      
             $.ajax({
-                url: 'book_detail_rows/',
+                url: 'book_detail_rows_Literature_and_Fiction/',
                 type: 'GET',
                 dataType: 'json',
                 success: (data) => {
-                    console.log('ajaxxxx!', data),
+                    var count = 0;
+                    var bookId = 0;
+                    var bookName;
+                    var isbn;
+                    var pen = "";
+                    var price;
+                    var tr = "";
                     $.each(data, function (i, val) {
-                    var tr = "<tr>" +
-                        "<td>"+ (i + 1) + "</td>" +
-                        "<td>"+ val.BookName  + "</td>" +
-                        "<td>"+ val.BookPrice + "</td>" +
-                        "<td>"+ val.ISBN + "</td>" +
-                        "</tr>";
-                    $(tr).appendTo("tbody");
+                        if(bookId > 0){
+                            if(bookId == val.BookID){
+                                pen = pen + val.PenName + "; ";
+                            }else{
+                                tr = tr + "<tr>" +
+                                "<td>"+ bookId + "</td>" +
+                                "<td>"+ bookName  + "</td>" +
+                                "<td>"+ isbn + "</td>" + 
+                                "<td>"+ pen + "</td>" +
+                                "<td>"+ price + "</td>" +
+                                "</tr>";
+                                bookId = val.BookID;
+                                bookName = val.BookName;
+                                isbn = val.ISBN;
+                                pen = val.PenName + "; ";
+                                price = val.BookPrice;
+                            }
+                        }else{
+                            bookId = val.BookID;
+                            isbn = val.ISBN;
+                            bookName = val.BookName;
+                            pen = val.PenName + "; ";
+                            price = val.BookPrice;
+                        }
                 });
+
+                tr = tr + "<tr>" +
+                    "<td>"+ bookId + "</td>" +
+                    "<td>"+ bookName  + "</td>" +
+                    "<td>"+ isbn + "</td>" + 
+                    "<td>"+ pen + "</td>" +
+                    "<td>"+ price + "</td>" +
+                    "</tr>";
+                $(tr).appendTo("tbody");
                 }
             });
         
@@ -33,10 +65,12 @@
         <div id="book_detail_table"></div>
         <table>
             <tbody id="items">
-                <tr><td>List</td>
+                <tr>
+                <td>ID</td>
                 <td>Book Name</td>
-                <td>Book Price</td>
                 <td>ISBN</td>
+                <td>Authors</td>
+                <td>Price</td>
                 </tr>
             </tbody>
         </table>
