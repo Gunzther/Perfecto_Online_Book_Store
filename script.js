@@ -8,7 +8,6 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + './files'));
 
-
 function getConnection() {
   return mysql.createConnection({
     host: "localhost",
@@ -99,5 +98,13 @@ app.post("/cart_fin", (req, res) => {
   );
   res.end();
 });
+// res.redirect("/index");
 
+
+app.post("/put_to_cart", (req, res) => {
+  console.log("posting" + req);
+  console.log("isbn: " + req.body.isbn);
+
+  res.end();
+});
 app.listen(1234);
