@@ -4,7 +4,9 @@ var app = express();
 var path = require("path");
 var fs = require("fs");
 var bodyParser = require("body-parser");
+
 let current_order_num;
+let order_list;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "./files"));
@@ -13,7 +15,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "", //if need, put your password here
+    password: "Mokusa@12", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -81,6 +83,10 @@ Categories_book.forEach(element => {
 
 app.get("/", function(req, res) {
   res.sendFile("index.html", { root: path.join(__dirname, "./files") });
+});
+
+app.post('/customer_order_list', function(req, res) {
+  order_list = req.body.cart;
 });
 
 app.get(/^(.+)$/, function(req, res) {
@@ -152,21 +158,24 @@ app.post("/cart_fin", (req, res) => {
 
   const queryStringOrder =
     "INSERT INTO order_detail (OrderNumber, Date, CustomerID, BookID, Quantity, Shipping_Method) VALUES (?, ?, ?, ?, ?, ?)";
-  var bookID = 2;
+  var bookID = order_list.split();
   var quantity = 1;
   var shipping_Method = 1;
+  var order_num_put = current_order_num+1;
   setTimeout(function(){
-    getConnection().query(
-      queryStringOrder,
-      [current_order_num+1, formatted_date, id, bookID, quantity, shipping_Method],
-      (err, results, fields) => {
-        if (err) {
-          console.log("failed");
-          res.sendStatus(500);
-          return;
+    // bookID.forEach(element => {
+      getConnection().query(
+        queryStringOrder,
+        [order_num_put , formatted_date, id, bookID[0], quantity, shipping_Method],
+        (err, results, fields) => {
+          if (err) {
+            console.log("failed");
+            res.sendStatus(500);
+            return;
+          }
         }
-      }
-    )
+      )
+  //  });
     },2000)
     res.redirect("/fin");
 

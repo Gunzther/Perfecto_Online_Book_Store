@@ -15,37 +15,44 @@
   ></script>
   <script src="jquery-3.3.1.min.js"></script>
   <script type="text/javascript">
+    
+    $(document).ready(() => {
+      $.ajax({
+            type: "POST",
+            url: "customer_order_list/",
+            timeout: 500,
+            data: { cart: localStorage.getItem("cart") }
+        })});
+  </script>
+
+  <script type="text/javascript">
       var order_in = localStorage.getItem("cart");
-      console.log(order_in);
       var spliting = order_in.split(";");
-      console.log("ss: ",spliting);
       let text = ""
-      let fake_text = ""
+      var total = 0;
       
       $(document).ready(() => {
-      spliting.forEach(element => {
+      for(let i = 0; i < spliting.length; i++) {
         $.ajax({
           url: "book_detail_rows_all/",
           type: "GET",
           dataType: "json",
           success: data => {
-            
-              // console.log(data);
-              // console.log(data[element-1].BookName);
-          var text_book = '<p><a href="#">'+ data[element-1].BookName +'</a> <span class="price">'+ data[element-1].BookPrice + '</span></p>';
+          var text_book = '<p><a href="#">'+ data[spliting[i]-1].BookName +'</a> <span class="price">'+ data[spliting[i]-1].BookPrice + '</span></p>';
+          total = total + data[spliting[i]-1].BookPrice;
+          if(i == spliting.length-1) {
+            $('<b>' + total + '</b>').appendTo(document.getElementById("book-cart-total"));  
+            $('<b>' + spliting.length + '</b>').appendTo(document.getElementById("book-cart-length"));  
+
+          }
+
           $(text_book).appendTo(document.getElementById("book-cart"));         
       }
     },
-    // console.log("inner"+text)
     );
-    fake_text = fake_text + ' <p><a href="#">'+ element +'</a> <span class="price">'+ 500 + '</span></p>'
-    // console.log(text);
-    $(text).appendTo(document.getElementById("book-cart"));
-  })
+  }
   })
   
-
-  // $(document).ready(() => { $(text).appendTo(document.getElementById("book-cart"));})
 
   </script>
 
@@ -200,14 +207,14 @@
           <h4>
             Cart
             <span class="price" style="color:black"
-              ><i class="fa fa-shopping-cart"></i> <b>4</b></span
+              ><i class="fa fa-shopping-cart"></i><div id="book-cart-length"></div></span
             >
           </h4>
           <div id="book-cart"></div>
           <tbody id="items"></tbody>
           <hr />
           <p>
-            Total <span class="price" style="color:black"><b>$30</b></span>
+            Total <span class="price" style="color:black"><div id="book-cart-total"></div></span>
           </p>
         </div>
       </div>
