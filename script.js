@@ -12,7 +12,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "new12345", //if need, put your password here
+    password: "", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -114,7 +114,34 @@ app.post("/cart_fin", (req, res) => {
       console.log("The customerID is: ", results.insertId);
     }
   );
-  res.end();
+  res.redirect("/fin");
+});
+
+app.post("/order_detial", (req, res) => {
+  console.log("posting to order_detail");
+
+  var orderNumber;
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  var CustomerID;
+  var bookName = "HarryPotter";
+  var quantity = 3;
+
+  const queryString =
+    "INSERT INTO order_detial (OrderNumber,Date, CustomerID, BookName, Quantity) VALUES (?,?, ?, ?, ?)";
+  getConnection().query(
+    queryString,
+    [orderNumber, date, CustomerID, bookName, quantity],
+    (err, results) => {
+      if (err) {
+        console.log("failed");
+        res.sendStatus(500);
+        return;
+      }
+      console.log("id ----> ", results.insertedId);
+    }
+  );
 });
 // res.redirect("/index");
 
