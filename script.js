@@ -6,14 +6,13 @@ var fs = require("fs");
 var bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(__dirname + './files'));
-
+app.use(express.static(__dirname + "./files"));
 
 function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "", //if need, put your password here
+    password: "new12345", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -34,20 +33,38 @@ connection.connect(function(error) {
 });
 
 var main_web = "/book_detail_rows_";
-var Categories_book = ["'Literature and Fiction'", "'Health and Well-Being'", "'Comics and Graphic Novels'", "'Computers and Internet'", "'Military and War'", "'Self-Enrichment'"];
+var Categories_book = [
+  "'Literature and Fiction'",
+  "'Health and Well-Being'",
+  "'Comics and Graphic Novels'",
+  "'Computers and Internet'",
+  "'Military and War'",
+  "'Self-Enrichment'"
+];
 
 Categories_book.forEach(element => {
-  
-  app.get(main_web + (element.split(" ").join("_")).split("'").join(""), function(req, res) {
-    // mysql here
-    connection.query("SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectodb.book_detail, perfectodb.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " + element, function(error, rows, fields) {
-      if (error) {
-        console.log("Error in query");
-      } else {
-        res.send(rows);
-      } 
-    });
-  });
+  app.get(
+    main_web +
+      element
+        .split(" ")
+        .join("_")
+        .split("'")
+        .join(""),
+    function(req, res) {
+      // mysql here
+      connection.query(
+        "SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectodb.book_detail, perfectodb.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " +
+          element,
+        function(error, rows, fields) {
+          if (error) {
+            console.log("Error in query");
+          } else {
+            res.send(rows);
+          }
+        }
+      );
+    }
+  );
 });
 
 app.get("/", function(req, res) {
