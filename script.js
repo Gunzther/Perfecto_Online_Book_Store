@@ -90,4 +90,31 @@ app.post("/cart_fin", (req, res) => {
   res.redirect("/fin");
 });
 
+app.post("/order_detial", (req, res) => {
+  console.log("posting to order_detail");
+
+  var orderNumber;
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  var CustomerID;
+  var bookName = "HarryPotter";
+  var quantity = 3;
+
+  const queryString =
+    "INSERT INTO order_detial (OrderNumber,Date, CustomerID, BookName, Quantity) VALUES (?,?, ?, ?, ?)";
+  getConnection().query(
+    queryString,
+    [orderNumber, date, CustomerID, bookName, quantity],
+    (err, results) => {
+      if (err) {
+        console.log("failed");
+        res.sendStatus(500);
+        return;
+      }
+      console.log("id ----> ", results.insertedId);
+    }
+  );
+});
+
 app.listen(1234);
