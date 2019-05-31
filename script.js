@@ -33,7 +33,7 @@ connection.connect(function(error) {
 
 app.get("/book_detail_rows", function(req, res) {
   // mysql here
-  connection.query("SELECT BookName, PenName, ISBN FROM book_detail, authors WHERE book_detail.AuthorID = authors.AuthorID", function(error, rows, fields) {
+  connection.query("SELECT BookName, PenName, ISBN, BookPrice FROM book_detail, authors WHERE book_detail.AuthorID = authors.AuthorID", function(error, rows, fields) {
     if (error) {
       console.log("Error in query");
     } else {
