@@ -15,7 +15,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Mokusa@12", //if need, put your password here
+    password: "", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -158,15 +158,16 @@ app.post("/cart_fin", (req, res) => {
 
   const queryStringOrder =
     "INSERT INTO order_detail (OrderNumber, Date, CustomerID, BookID, Quantity, Shipping_Method) VALUES (?, ?, ?, ?, ?, ?)";
-  var bookID = order_list.split();
-  var quantity = 1;
-  var shipping_Method = 1;
-  var order_num_put = current_order_num+1;
+  var bookID = order_list.split(";");
+
   setTimeout(function(){
-    // bookID.forEach(element => {
+    var quantity = 1;
+    var shipping_Method = 1;
+    var order_num_put = current_order_num+1;
+    bookID.forEach(element => {
       getConnection().query(
         queryStringOrder,
-        [order_num_put , formatted_date, id, bookID[0], quantity, shipping_Method],
+        [order_num_put , formatted_date, id, element, quantity, shipping_Method],
         (err, results, fields) => {
           if (err) {
             console.log("failed");
@@ -175,11 +176,10 @@ app.post("/cart_fin", (req, res) => {
           }
         }
       )
-  //  });
+   });
     },2000)
     res.redirect("/fin");
 
- 
 });
 
 app.post("/cart_", (req, res) => {
