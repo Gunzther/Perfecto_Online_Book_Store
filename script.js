@@ -6,6 +6,8 @@ var fs = require("fs");
 var bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname + './files'));
+
 
 function getConnection() {
   return mysql.createConnection({
@@ -15,6 +17,7 @@ function getConnection() {
     database: "perfectoDB"
   });
 }
+
 var connection = getConnection();
 
 app.use("/cssFiles", express.static(__dirname + "/css"));
@@ -30,14 +33,20 @@ connection.connect(function(error) {
   }
 });
 
-app.get("/customers", function(req, res) {
-  // mysql here
-  connection.query("SELECT * FROM customers", function(error, rows, fields) {
-    if (error) {
-      console.log("Error in query");
-    } else {
-      res.send(rows);
-    }
+var main_web = "/book_detail_rows_";
+var Categories_book = ["'Literature and Fiction'", "'Health and Well-Being'", "'Comics and Graphic Novels'", "'Computers and Internet'", "'Military and War'", "'Self-Enrichment'"];
+
+Categories_book.forEach(element => {
+  
+  app.get(main_web + (element.split(" ").join("_")).split("'").join(""), function(req, res) {
+    // mysql here
+    connection.query("SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectodb.book_detail, perfectodb.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " + element, function(error, rows, fields) {
+      if (error) {
+        console.log("Error in query");
+      } else {
+        res.send(rows);
+      } 
+    });
   });
 });
 
@@ -57,14 +66,13 @@ app.get(/^(.+)$/, function(req, res) {
       });
     }
   } catch (err) {
-    console.log(err);
     res.sendFile("404.html", { root: path.join(__dirname, "./files") });
   }
 });
 
 app.post("/cart_fin", (req, res) => {
   console.log("posting");
-  console.log("first name" + req.body.create_first_name);
+  console.log("first name: " + req.body.create_first_name);
 
   var firstName = req.body.create_first_name;
   var lastName = req.body.create_last_name;
@@ -86,7 +94,7 @@ app.post("/cart_fin", (req, res) => {
         res.sendStatus(500);
         return;
       }
-      console.log("id ----> ", results.insertedId);
+      console.log("The customerID is: ", results.insertId);
     }
   );
   res.end();
