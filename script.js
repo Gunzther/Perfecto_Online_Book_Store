@@ -12,7 +12,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "", //if need, put your password here
+    password: "keep1234", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -53,7 +53,7 @@ Categories_book.forEach(element => {
     function(req, res) {
       // mysql here
       connection.query(
-        "SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectodb.book_detail, perfectodb.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " +
+        "SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectoDB.book_detail, perfectoDB.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " +
           element,
         function(error, rows, fields) {
           if (error) {
