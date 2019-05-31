@@ -87,7 +87,7 @@ app.post("/cart_fin", (req, res) => {
       console.log("id ----> ", results.insertedId);
     }
   );
-  res.end();
+  res.redirect("/fin");
 });
 
 app.listen(1234);
