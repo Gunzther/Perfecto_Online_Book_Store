@@ -34,7 +34,9 @@ p:last-child {
 
 body {
   color: #000;
-  background-color: antiquewhite;
+  background-image: url("https://i.ibb.co/w0F0s9q/bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   background-blend-mode: normal, lighten, soft-light;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-size: 18px;
@@ -566,6 +568,7 @@ figure.effect-bubba:hover p {
   }
 
   .tm-welcome-box {
+    margin-left: 420px;
     max-width: 400px;
     width: 49%;
   }

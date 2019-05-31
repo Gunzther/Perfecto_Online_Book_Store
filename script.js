@@ -4,8 +4,10 @@ var app = express();
 var path = require("path");
 var fs = require("fs");
 var bodyParser = require("body-parser");
+let current_order_num;
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname + "./files"));
 
 function getConnection() {
   return mysql.createConnection({
@@ -15,9 +17,12 @@ function getConnection() {
     database: "perfectoDB"
   });
 }
+
 var connection = getConnection();
 
 app.use("/cssFiles", express.static(__dirname + "/css"));
+app.use("/js", express.static(__dirname + "/js"));
+app.use("/img", express.static(__dirname + "/img"));
 
 connection.connect(function(error) {
   if (error) {
@@ -28,15 +33,39 @@ connection.connect(function(error) {
   }
 });
 
-app.get("/customers", function(req, res) {
-  // mysql here
-  connection.query("SELECT * FROM customers", function(error, rows, fields) {
-    if (error) {
-      console.log("Error in query");
-    } else {
-      res.send(rows);
+var main_web = "/book_detail_rows_";
+var Categories_book = [
+  "'Literature and Fiction'",
+  "'Health and Well-Being'",
+  "'Comics and Graphic Novels'",
+  "'Computers and Internet'",
+  "'Military and War'",
+  "'Self-Enrichment'"
+];
+
+Categories_book.forEach(element => {
+  app.get(
+    main_web +
+      element
+        .split(" ")
+        .join("_")
+        .split("'")
+        .join(""),
+    function(req, res) {
+      // mysql here
+      connection.query(
+        "SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectodb.book_detail, perfectodb.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " +
+          element,
+        function(error, rows, fields) {
+          if (error) {
+            console.log("Error in query");
+          } else {
+            res.send(rows);
+          }
+        }
+      );
     }
-  });
+  );
 });
 
 app.get("/", function(req, res) {
@@ -61,7 +90,7 @@ app.get(/^(.+)$/, function(req, res) {
 
 app.post("/cart_fin", (req, res) => {
   console.log("posting");
-  console.log("first name" + req.body.create_first_name);
+  console.log("first name: " + req.body.create_first_name);
 
   var firstName = req.body.create_first_name;
   var lastName = req.body.create_last_name;
@@ -96,31 +125,38 @@ app.post("/cart_fin", (req, res) => {
         res.sendStatus(500);
         return;
       }
-      console.log("id ----> ", results.insertId);
       id = results.insertId;
-      console.log("id ----> id:", id);
     }
   )
+    // get current number
+
+  connection.query("SELECT OrderNumber FROM order_detail", function(error, rows, fields) {
+    if (error) {
+      console.log("Error in query");
+    } else {
+      current_order_num = rows[rows.length-1].OrderNumber;
+    }
+  });
+
 
   const queryStringOrder =
-    "INSERT INTO order_detail (Date, CustomerID, BookID, Quantity, Shipping_Method) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO order_detail (OrderNumber, Date, CustomerID, BookID, Quantity, Shipping_Method) VALUES (?, ?, ?, ?, ?, ?)";
   var bookID = 2;
-  var quantity = 3;
+  var quantity = 1;
   var shipping_Method = 1;
-
+  setTimeout(function(){
     getConnection().query(
       queryStringOrder,
-      [formatted_date, id, bookID, quantity, shipping_Method],
+      [current_order_num+1, formatted_date, id, bookID, quantity, shipping_Method],
       (err, results, fields) => {
         if (err) {
           console.log("failed");
           res.sendStatus(500);
           return;
         }
-        console.log("id ----> ", "insert order!!!", results.insertId);
       }
     )
-
+    },2000)
     res.redirect("/fin");
 
  
@@ -152,5 +188,12 @@ app.post("/cart_", (req, res) => {
     }
   );
 });
+// res.redirect("/index");
 
+app.post("/put_to_cart", (req, res) => {
+  console.log("posting" + req);
+  console.log("isbn: " + req.body.isbn);
+
+  res.end();
+});
 app.listen(1234);
