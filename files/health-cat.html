@@ -1,5 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+  <!-- get book data -->
+  <script
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+    type="text/javascript"
+  ></script>
+  <script src="jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      $.ajax({
+        url: "book_detail_rows_Literature_and_Fiction/",
+        type: "GET",
+        dataType: "json",
+        success: data => {
+          var count = 0;
+          var bookId = 0;
+          var bookName;
+          var isbn;
+          var pen = "";
+          var price;
+          var tr = "";
+          var item = "";
+          $.each(data, function(i, val) {
+            if (bookId > 0) {
+              if (bookId == val.BookID) {
+                pen = pen + val.PenName + "; ";
+              } else {
+                item =
+                  item +
+                  '<a href="https://www.w3schools.com/html/"><meta itemprop="id" content="' +
+                  bookId +
+                  '" /><meta itemprop="isbn" content="' +
+                  isbn +
+                  '" /><metaitemprop="name"content="' +
+                  bookName +
+                  '"/><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
+                  price +
+                  ' Baht</p><h6 style="margin-top: 20px;">' +
+                  bookName +
+                  "</h6></figcaption></figure></a >";
+
+                // tr =
+                //   tr +
+                //   "<tr>" +
+                //   "<td>" +
+                //   bookId +
+                //   "</td>" +
+                //   "<td>" +
+                //   bookName +
+                //   "</td>" +
+                //   "<td>" +
+                //   isbn +
+                //   "</td>" +
+                //   "<td>" +
+                //   pen +
+                //   "</td>" +
+                //   "<td>" +
+                //   price +
+                //   "</td>" +
+                //   "</tr>";
+                bookId = val.BookID;
+                bookName = val.BookName;
+                isbn = val.ISBN;
+                pen = val.PenName + "; ";
+                price = val.BookPrice;
+              }
+            } else {
+              bookId = val.BookID;
+              isbn = val.ISBN;
+              bookName = val.BookName;
+              pen = val.PenName + "; ";
+              price = val.BookPrice;
+            }
+          });
+          item =
+            item +
+            '<a href="https://www.w3schools.com/html/"><meta itemprop="id" content="' +
+            bookId +
+            '" /><meta itemprop="isbn" content="' +
+            isbn +
+            '" /><metaitemprop="name"content="' +
+            bookName +
+            '"/><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
+            price +
+            ' Baht</p><h6 style="margin-top: 20px;">' +
+            bookName +
+            "</h6></figcaption></figure></a >";
+          $(tr).appendTo(document.getElementById("book-shelf"));
+        }
+      });
+    });
+  </script>
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
