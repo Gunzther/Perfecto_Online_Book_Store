@@ -1,5 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+  <!-- get book data -->
+  <script
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+    type="text/javascript"
+  ></script>
+  <script src="jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(() => {
+      $.ajax({
+        url: "book_detail_rows_Literature_and_Fiction/",
+        type: "GET",
+        dataType: "json",
+        success: data => {
+          var count = 0;
+          var bookId = 0;
+          var bookName;
+          var isbn;
+          var pen = "";
+          var price;
+          var tr = "";
+          var item = "";
+          $.each(data, function(i, val) {
+            if (bookId > 0) {
+              if (bookId == val.BookID) {
+                pen = pen + val.PenName + "; ";
+              } else {
+                item =
+                  item +
+                  '<a href="https://www.w3schools.com/html/"><meta itemprop="id" content="' +
+                  bookId +
+                  '" /><meta itemprop="isbn" content="' +
+                  isbn +
+                  '" /><metaitemprop="name"content="' +
+                  bookName +
+                  '"/><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
+                  price +
+                  ' Baht</p><h6 style="margin-top: 20px;">' +
+                  bookName +
+                  "</h6></figcaption></figure></a >";
+                bookId = val.BookID;
+                bookName = val.BookName;
+                isbn = val.ISBN;
+                pen = val.PenName + "; ";
+                price = val.BookPrice;
+              }
+            } else {
+              bookId = val.BookID;
+              isbn = val.ISBN;
+              bookName = val.BookName;
+              pen = val.PenName + "; ";
+              price = val.BookPrice;
+            }
+          });
+          item =
+            item +
+            '<a href="https://www.w3schools.com/html/"><meta itemprop="id" content="' +
+            bookId +
+            '" /><meta itemprop="isbn" content="' +
+            isbn +
+            '" /><metaitemprop="name"content="' +
+            bookName +
+            '"/><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
+            price +
+            ' Baht</p><h6 style="margin-top: 20px;">' +
+            bookName +
+            "</h6></figcaption></figure></a >";
+          $(item).appendTo(document.getElementById("book-shelf"));
+        }
+      });
+    });
+  </script>
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -79,133 +150,7 @@ http://www.templatemo.com/tm-496-pipeline
           </div>
 
           <div id="gallery" class="tm-content-box">
-            <div id="book-shelf" class="grid tm-gallery">
-              <a href="https://www.w3schools.com/html/">
-                <meta itemprop="id" content="1" />
-                <meta itemprop="isbn" content="9781408855652" />
-                <meta
-                  itemprop="name"
-                  content="Harry Potter and the Philosopher's Stone"
-                />
-                <figure class="effect-bubba">
-                  <img src="img/book.jpg" alt="fiction" class="img-fluid" />
-                  <figcaption>
-                    <p style="margin-top: 50px;">add to cart<br />307 Baht</p>
-                    <h6 style="margin-top: 20px;">
-                      Harry Potter and the Philosopher's Stone
-                    </h6>
-                  </figcaption>
-                </figure>
-              </a>
-
-              <a href="https://www.w3schools.com/html/">
-                <meta itemprop="id" content="2" />
-                <meta itemprop="isbn" content="9781408898109" />
-                <meta
-                  itemprop="name"
-                  content="Harry Potter and the Chamber of Secrets"
-                />
-                <figure class="effect-bubba">
-                  <img src="img/book.jpg" alt="fiction" class="img-fluid" />
-                  <figcaption>
-                    <p style="margin-top: 50px;">add to cart<br />276 Baht</p>
-                    <h6 style="margin-top: 20px;">
-                      Harry Potter and the Chamber of Secrets
-                    </h6>
-                  </figcaption>
-                </figure>
-              </a>
-
-              <a href="https://www.w3schools.com/html/">
-                <meta itemprop="id" content="3" />
-                <meta itemprop="isbn" content="9781408855911" />
-                <meta
-                  itemprop="name"
-                  content="Harry Potter and the Prisoner of Azkaban"
-                />
-                <figure class="effect-bubba">
-                  <img src="img/book.jpg" alt="fiction" class="img-fluid" />
-                  <figcaption>
-                    <p style="margin-top: 50px;">add to cart<br />276 Baht</p>
-                    <h6 style="margin-top: 20px;">
-                      Harry Potter and the Prisoner of Azkaban
-                    </h6>
-                  </figcaption>
-                </figure>
-              </a>
-
-              <a href="https://www.w3schools.com/html/">
-                <meta itemprop="id" content="4" />
-                <meta itemprop="isbn" content="9781408855928" />
-                <meta
-                  itemprop="name"
-                  content="Harry Potter and the Goblet of Fire"
-                />
-                <figure class="effect-bubba">
-                  <img src="img/book.jpg" alt="fiction" class="img-fluid" />
-                  <figcaption>
-                    <p style="margin-top: 50px;">add to cart<br />389 Baht</p>
-                    <h6 style="margin-top: 20px;">
-                      Harry Potter and the Goblet of Fire
-                    </h6>
-                  </figcaption>
-                </figure>
-              </a>
-
-              <a href="https://www.w3schools.com/html/">
-                <meta itemprop="id" content="5" />
-                <meta itemprop="isbn" content="9781408855935" />
-                <meta
-                  itemprop="name"
-                  content="Harry Potter and the Order of the Phoenix"
-                />
-                <figure class="effect-bubba">
-                  <img src="img/book.jpg" alt="fiction" class="img-fluid" />
-                  <figcaption>
-                    <p style="margin-top: 50px;">add to cart<br />304 Baht</p>
-                    <h6 style="margin-top: 20px;">
-                      Harry Potter and the Order of the Phoenix
-                    </h6>
-                  </figcaption>
-                </figure>
-              </a>
-
-              <a href="https://www.w3schools.com/html/">
-                <meta itemprop="id" content="6" />
-                <meta itemprop="isbn" content="9781408855942" />
-                <meta
-                  itemprop="name"
-                  content="Harry Potter and the Half-Blood Prince"
-                />
-                <figure class="effect-bubba">
-                  <img src="img/book.jpg" alt="fiction" class="img-fluid" />
-                  <figcaption>
-                    <p style="margin-top: 50px;">add to cart<br />315 Baht</p>
-                    <h6 style="margin-top: 20px;">
-                      Harry Potter and the Half-Blood Prince
-                    </h6>
-                  </figcaption>
-                </figure>
-              </a>
-
-              <a href="https://www.w3schools.com/html/">
-                <meta itemprop="id" content="7" />
-                <meta itemprop="isbn" content="9781408855959" />
-                <meta
-                  itemprop="name"
-                  content="Harry Potter and the Deathly Hallows"
-                />
-                <figure class="effect-bubba">
-                  <img src="img/book.jpg" alt="fiction" class="img-fluid" />
-                  <figcaption>
-                    <p style="margin-top: 50px;">add to cart<br />304 Baht</p>
-                    <h6 style="margin-top: 20px;">
-                      Harry Potter and the Deathly Hallows
-                    </h6>
-                  </figcaption>
-                </figure>
-              </a>
-            </div>
+            <div id="book-shelf" class="grid tm-gallery"></div>
           </div>
         </div>
       </div>
