@@ -28,17 +28,19 @@
               } else {
                 item =
                   item +
-                  '<a href="https://www.w3schools.com/html/"><meta itemprop="id" content="' +
+                  '<meta itemprop="id" content="' +
                   bookId +
-                  '" /><meta itemprop="isbn" content="' +
+                  '" /><meta name="isbn" id="isbn" itemprop="isbn" content="' +
                   isbn +
                   '" /><metaitemprop="name"content="' +
                   bookName +
-                  '"/><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
+                  '"/><button id="id_button" value=' +
+                  isbn +
+                  '><figure class="effect-bubba"><img type="button" src="img/book.jpg" alt="fiction" class="img-fluid onclick="image()"" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
                   price +
                   ' Baht</p><h6 style="margin-top: 20px;">' +
                   bookName +
-                  "</h6></figcaption></figure></a >";
+                  "</h6></figcaption></figure></button>";
                 bookId = val.BookID;
                 bookName = val.BookName;
                 isbn = val.ISBN;
@@ -55,17 +57,19 @@
           });
           item =
             item +
-            '<a href="https://www.w3schools.com/html/"><meta itemprop="id" content="' +
+            '<meta itemprop="id" content="' +
             bookId +
             '" /><meta itemprop="isbn" content="' +
             isbn +
-            '" /><metaitemprop="name"content="' +
+            '" /><meta itemprop="name"content="' +
             bookName +
-            '"/><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
+            '"/><button id="id_button" value=' +
+            isbn +
+            '><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
             price +
             ' Baht</p><h6 style="margin-top: 20px;">' +
             bookName +
-            "</h6></figcaption></figure></a >";
+            "</h6></figcaption></figure></button>";
           $(item).appendTo(document.getElementById("book-shelf"));
         }
       });
@@ -97,6 +101,8 @@ http://www.templatemo.com/tm-496-pipeline
     <link rel="stylesheet" href="/cssFiles/magnific-popup.css" />
     <!-- Magnific pop up style, http://dimsemenov.com/plugins/magnific-popup/ -->
     <link rel="stylesheet" href="/cssFiles/cat-style.css" />
+    <link rel="stylesheet" href="/cssFiles/inv_button.css" />
+
     <!-- Templatemo style -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -241,6 +247,18 @@ http://www.templatemo.com/tm-496-pipeline
         // Google Map
         loadGoogleMap();
       });
+    </script>
+    <script>
+      setTimeout(function() {
+        $("button")
+          .each(function(i, el) {})
+          .on("click", function() {
+            var cart = localStorage.getItem("cart");
+            if (cart == null) localStorage.setItem("cart", this.value);
+            else localStorage.setItem("cart", cart + ";" + this.value);
+            window.location.reload();
+          });
+      }, 200);
     </script>
   </body>
 </html>
