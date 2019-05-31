@@ -11,7 +11,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "keep1234", //if need, put your password here
+    password: "Mokusa@12", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -55,7 +55,6 @@ app.get(/^(.+)$/, function(req, res) {
       });
     }
   } catch (err) {
-    console.log(err);
     res.sendFile("404.html", { root: path.join(__dirname, "./files") });
   }
 });
@@ -72,9 +71,22 @@ app.post("/cart_fin", (req, res) => {
   var city = req.body.create_city;
   var country = req.body.create_country;
   var zip = req.body.create_zip;
+  let id;
+  
+  function appendLeadingZeroes(n){
+    if(n <= 9){
+      return "0" + n;
+    }
+    return n
+  }
+  
+  let current_datetime = new Date()
+  let formatted_date = current_datetime.getFullYear() + "-" + appendLeadingZeroes(current_datetime.getMonth() + 1) + "-" + appendLeadingZeroes(current_datetime.getDate())
 
   const queryString =
     "INSERT INTO customers (FirstName, LastName, Age, Gender, Address, City, Country, ZipCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+  
   getConnection().query(
     queryString,
     [firstName, lastName, age, gender, address, city, country, zip],
@@ -84,13 +96,37 @@ app.post("/cart_fin", (req, res) => {
         res.sendStatus(500);
         return;
       }
-      console.log("id ----> ", results.insertedId);
+      console.log("id ----> ", results.insertId);
+      id = results.insertId;
+      console.log("id ----> id:", id);
     }
-  );
-  res.redirect("/fin");
+  )
+
+  const queryStringOrder =
+    "INSERT INTO order_detail (Date, CustomerID, BookID, Quantity, Shipping_Method) VALUES (?, ?, ?, ?, ?)";
+  var bookID = 2;
+  var quantity = 3;
+  var shipping_Method = 1;
+
+    getConnection().query(
+      queryStringOrder,
+      [formatted_date, id, bookID, quantity, shipping_Method],
+      (err, results, fields) => {
+        if (err) {
+          console.log("failed");
+          res.sendStatus(500);
+          return;
+        }
+        console.log("id ----> ", "insert order!!!", results.insertId);
+      }
+    )
+
+    res.redirect("/fin");
+
+ 
 });
 
-app.post("/order_detial", (req, res) => {
+app.post("/cart_", (req, res) => {
   console.log("posting to order_detail");
 
   var orderNumber;
