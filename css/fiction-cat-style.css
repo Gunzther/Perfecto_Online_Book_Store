@@ -522,6 +522,9 @@ figure.effect-bubba:hover p {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
+#gallery {
+  margin-bottom: 100px;
+}
 
 #gallery,
 .grid {
@@ -756,7 +759,7 @@ figure.effect-bubba:hover p {
     padding-top: 5%;
   }
   .grid figure figcaption {
-    padding: 2em;
+    padding: 1em;
   }
 }
 
