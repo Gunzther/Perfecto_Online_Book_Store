@@ -13,7 +13,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Mokusa@12", //if need, put your password here
+    password: "", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -31,6 +31,17 @@ connection.connect(function(error) {
   } else {
     console.log("Connected");
   }
+});
+
+app.get("/book_detail_rows_all", function(req, res) {
+  // mysql here
+  connection.query("SELECT distinct BookName,BookID,BookPrice FROM book_detail", function(error, rows, fields) {
+    if (error) {
+      console.log("Error in query");
+    } else {
+      res.send(rows);
+    }
+  });
 });
 
 var main_web = "/book_detail_rows_";
