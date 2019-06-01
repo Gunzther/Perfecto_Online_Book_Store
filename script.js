@@ -51,7 +51,7 @@ app.get("/book_detail_rows_all", function(req, res) {
 //for admin
 app.get("/book_detail_rows_checking_for_admin_1", function(req, res) {
   connection.query(
-    "SELECT YEAR(DATE) as YearDate, BookName, PublisherName, sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total FROM  order_detail, book_detail, publishers WHERE order_detail.BookID = book_detail.BookID and book_detail.PublisherID = publishers.PublisherID GROUP BY YearDate,BookName, PublisherName",
+    "SELECT YEAR(DATE) as YearDate, BookName, PublisherName, sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total FROM  order_detail, book_detail, publishers WHERE order_detail.BookID = book_detail.BookID and book_detail.PublisherID = publishers.PublisherID GROUP BY YearDate,BookName, PublisherName ORDER By YearDate, Total",
     function(error, rows, fields) {
       if (error) {
         console.log("Error in query2");
