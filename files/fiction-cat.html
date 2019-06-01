@@ -7,7 +7,6 @@
   ></script>
   <script src="jquery-3.3.1.min.js"></script>
   <script type="text/javascript">
-    
     $(document).ready(() => {
       $.ajax({
         url: "book_detail_rows_Literature_and_Fiction/",
@@ -35,7 +34,9 @@
                   isbn +
                   '" /><metaitemprop="name"content="' +
                   bookName +
-                  '"/><button id="id_button" value='+ bookId +'><figure class="effect-bubba"><img type="button" src="img/book.jpg" alt="fiction" class="img-fluid onclick="image()"" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
+                  '"/><button id="id_button" value=' +
+                  bookId +
+                  '><figure class="effect-bubba"><img type="button" src="img/book.jpg" alt="fiction" class="img-fluid onclick="image()"" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
                   price +
                   ' Baht</p><h6 style="margin-top: 20px;">' +
                   bookName +
@@ -62,7 +63,9 @@
             isbn +
             '" /><meta itemprop="name"content="' +
             bookName +
-            '"/><button id="id_button" value='+ bookId  +'><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
+            '"/><button id="id_button" value=' +
+            bookId +
+            '><figure class="effect-bubba"><img src="img/book.jpg" alt="fiction" class="img-fluid" /><figcaption><p style="margin-top: 50px;">add to cart<br />' +
             price +
             ' Baht</p><h6 style="margin-top: 20px;">' +
             bookName +
@@ -131,7 +134,7 @@ http://www.templatemo.com/tm-496-pipeline
                 >
               </li>
               <li class="tm-nav-item">
-                <a href="#about" class="tm-nav-item-link tm-button">
+                <a href="/cart" class="tm-nav-item-link tm-button">
                   <i class="fa fa-shopping-basket tm-nav-fa"></i>My Cart</a
                 >
               </li>
