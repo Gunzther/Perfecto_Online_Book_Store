@@ -1,4 +1,7 @@
 body {
+  background-image: url("https://i.ibb.co/w0F0s9q/bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   font-family: Arial;
   font-size: 17px;
   padding: 8px;

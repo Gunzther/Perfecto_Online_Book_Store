@@ -15,6 +15,51 @@ Paragraph text color 			#000
 
 */
 
+.sidenav {
+  float: none;
+  width: 450px;
+  max-width: 100%;
+  margin-bottom: 20px;
+  position: fixed;
+  background: #523b2c;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+.sidenav a,
+.sidenav a:focus {
+  font-size: 1.4rem;
+  background-color: #523b2c;
+  padding: 6px 8px 6px 16px;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+  display: block;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.sidenav a:hover {
+  background-color: #33261d;
+  color: #ece291;
+  text-decoration: none;
+}
+
+.main {
+  margin-left: 140px; /* Same width as the sidebar + left position in px */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
 a:focus {
   color: #666;
   outline: none;

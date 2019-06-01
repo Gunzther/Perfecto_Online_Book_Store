@@ -1,0 +1,22 @@
+body {
+  background-image: url("https://i.ibb.co/w0F0s9q/bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #523b2c;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #af8e78;
+}
