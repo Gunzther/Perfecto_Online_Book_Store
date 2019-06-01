@@ -79,7 +79,8 @@ label {
 }
 
 .btn:hover {
-  background-color: #523b2c;
+  background-color: #33261d;
+  color: #ece291;
 }
 
 a {
