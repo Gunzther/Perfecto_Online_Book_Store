@@ -67,7 +67,7 @@ label {
 }
 
 .btn {
-  background-color: #4caf50;
+  background-color: #523b2c;
   color: white;
   padding: 12px;
   margin: 10px 0;
@@ -79,11 +79,11 @@ label {
 }
 
 .btn:hover {
-  background-color: #45a049;
+  background-color: #523b2c;
 }
 
 a {
-  color: #2196f3;
+  color: #523b2c;
 }
 
 hr {
