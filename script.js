@@ -15,7 +15,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "", //if need, put your password here
+    password: "keep1234", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -37,48 +37,61 @@ connection.connect(function(error) {
 
 app.get("/book_detail_rows_all", function(req, res) {
   // mysql here
-  connection.query("SELECT distinct BookName,BookID,BookPrice FROM book_detail", function(error, rows, fields) {
-    if (error) {
-      console.log("Error in query");
-    } else {
-      res.send(rows);
+  connection.query(
+    "SELECT distinct BookName,BookID,BookPrice FROM book_detail",
+    function(error, rows, fields) {
+      if (error) {
+        console.log("Error in query1");
+      } else {
+        res.send(rows);
+      }
     }
-  });
+  );
 });
 //for admin
 app.get("/book_detail_rows_checking_for_admin_1", function(req, res) {
-  connection.query("SELECT YEAR(DATE) as YearDate, BookName, PublisherName, sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total FROM  order_detail, book_detail, publishers WHERE order_detail.BookID = book_detail.BookID and book_detail.PublisherID = publishers.PublisherID GROUP BY BookName, PublisherName", function(error, rows, fields) {
-    if (error) {
-      console.log("Error in query");
-    } else {
-      res.send(rows);
+  connection.query(
+    "SELECT YEAR(DATE) as YearDate, BookName, PublisherName, sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total FROM  order_detail, book_detail, publishers WHERE order_detail.BookID = book_detail.BookID and book_detail.PublisherID = publishers.PublisherID GROUP BY YearDate,BookName, PublisherName",
+    function(error, rows, fields) {
+      if (error) {
+        console.log("Error in query2");
+        console.log(error);
+      } else {
+        res.send(rows);
+      }
     }
-  });
+  );
 });
 app.get("/book_detail_rows_checking_for_admin_2", function(req, res) {
-  connection.query("SELECT YEAR(DATE) as YearDate, BookName, PublisherName"+
-  " FROM order_detail, book_detail, publishers"+
-  " WHERE book_detail.BookID NOT IN(SELECT BookID"+
-  " FROM order_detail)and book_detail.PublisherID = publishers.PublisherID"+
-  " GROUP BY YEAR(DATE), BookName, PublisherName", function(error, rows, fields) {
-    if (error) {
-      console.log("Error in query");
-    } else {
-      res.send(rows);
+  connection.query(
+    "SELECT YEAR(DATE) as YearDate, BookName, PublisherName" +
+      " FROM order_detail, book_detail, publishers" +
+      " WHERE book_detail.BookID NOT IN(SELECT BookID" +
+      " FROM order_detail)and book_detail.PublisherID = publishers.PublisherID" +
+      " GROUP BY YEAR(DATE), BookName, PublisherName",
+    function(error, rows, fields) {
+      if (error) {
+        console.log("Error in query3");
+      } else {
+        res.send(rows);
+      }
     }
-  });
+  );
 });
 app.get("/book_detail_rows_checking_for_admin_3", function(req, res) {
-  connection.query("SELECT YEAR(DATE) as YearDate, Categories,  sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total"+
-  " FROM order_detail, book_detail"+
-  " WHERE order_detail.BookID = book_detail.BookID"+
-  " GROUP BY YEAR(Date), Categories", function(error, rows, fields) {
-    if (error) {
-      console.log("Error in query");
-    } else {
-      res.send(rows);
+  connection.query(
+    "SELECT YEAR(DATE) as YearDate, Categories,  sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total" +
+      " FROM order_detail, book_detail" +
+      " WHERE order_detail.BookID = book_detail.BookID" +
+      " GROUP BY YEAR(Date), Categories",
+    function(error, rows, fields) {
+      if (error) {
+        console.log("Error in query4");
+      } else {
+        res.send(rows);
+      }
     }
-  });
+  );
 });
 
 var main_web = "/book_detail_rows_";
@@ -102,11 +115,11 @@ Categories_book.forEach(element => {
     function(req, res) {
       // mysql here
       connection.query(
-        "SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectodb.book_detail, perfectodb.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " +
+        "SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectoDB.book_detail, perfectoDB.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " +
           element,
         function(error, rows, fields) {
           if (error) {
-            console.log("Error in query");
+            console.log("Error in query5");
           } else {
             res.send(rows);
           }
@@ -120,7 +133,7 @@ app.get("/", function(req, res) {
   res.sendFile("index.html", { root: path.join(__dirname, "./files") });
 });
 
-app.post('/customer_order_list', function(req, res) {
+app.post("/customer_order_list", function(req, res) {
   order_list = req.body.cart;
 });
 
@@ -153,21 +166,25 @@ app.post("/cart_fin", (req, res) => {
   var country = req.body.create_country;
   var zip = req.body.create_zip;
   let id;
-  
-  function appendLeadingZeroes(n){
-    if(n <= 9){
+
+  function appendLeadingZeroes(n) {
+    if (n <= 9) {
       return "0" + n;
     }
-    return n
+    return n;
   }
-  
-  let current_datetime = new Date()
-  let formatted_date = current_datetime.getFullYear() + "-" + appendLeadingZeroes(current_datetime.getMonth() + 1) + "-" + appendLeadingZeroes(current_datetime.getDate())
+
+  let current_datetime = new Date();
+  let formatted_date =
+    current_datetime.getFullYear() +
+    "-" +
+    appendLeadingZeroes(current_datetime.getMonth() + 1) +
+    "-" +
+    appendLeadingZeroes(current_datetime.getDate());
 
   const queryString =
     "INSERT INTO customers (FirstName, LastName, Age, Gender, Address, City, Country, ZipCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-  
   getConnection().query(
     queryString,
     [firstName, lastName, age, gender, address, city, country, zip],
@@ -179,30 +196,33 @@ app.post("/cart_fin", (req, res) => {
       }
       id = results.insertId;
     }
-  )
-    // get current number
+  );
+  // get current number
 
-  connection.query("SELECT OrderNumber FROM order_detail", function(error, rows, fields) {
+  connection.query("SELECT OrderNumber FROM order_detail", function(
+    error,
+    rows,
+    fields
+  ) {
     if (error) {
-      console.log("Error in query");
+      console.log("Error in query6");
     } else {
-      current_order_num = rows[rows.length-1].OrderNumber;
+      current_order_num = rows[rows.length - 1].OrderNumber;
     }
   });
-
 
   const queryStringOrder =
     "INSERT INTO order_detail (OrderNumber, Date, CustomerID, BookID, Quantity, Shipping_Method) VALUES (?, ?, ?, ?, ?, ?)";
   var bookID = order_list.split(";");
 
-  setTimeout(function(){
+  setTimeout(function() {
     var quantity = 1;
     var shipping_Method = 1;
-    var order_num_put = current_order_num+1;
+    var order_num_put = current_order_num + 1;
     bookID.forEach(element => {
       getConnection().query(
         queryStringOrder,
-        [order_num_put , formatted_date, id, element, quantity, shipping_Method],
+        [order_num_put, formatted_date, id, element, quantity, shipping_Method],
         (err, results, fields) => {
           if (err) {
             console.log("failed");
@@ -210,11 +230,10 @@ app.post("/cart_fin", (req, res) => {
             return;
           }
         }
-      )
-   });
-    },2000)
-    res.redirect("/fin");
-
+      );
+    });
+  }, 2000);
+  res.redirect("/fin");
 });
 
 app.post("/cart_", (req, res) => {
