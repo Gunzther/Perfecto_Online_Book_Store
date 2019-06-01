@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(() => {
+      
+            $.ajax({
+                url: 'book_detail_rows_checking_for_admin_1/',
+                type: 'GET',
+                dataType: 'json',
+                success: (data) => {
+                    var tr = "";
+                    $.each(data, function (i, val) {
+                            tr = tr + "<tr>" +
+                                "<td>"+ val.YearDate + "</td>" +
+                                "<td>"+ val.BookName  + "</td>" +
+                                "<td>"+ val.PublisherName + "</td>" + 
+                                "<td>"+ val.Quantity + "</td>" +
+                                "<td>"+ val.Total + "</td>" +
+                                "</tr>";
+                            })
+                console.log(tr)
+                $(tr).appendTo("tbody");
+                }
+            });
+
+    });
+</script>
+    <head>
+        <title>For admin: Perfecto</title>
+    </head>
+
+    <body>
+        <div id="book_detail_table"></div>
+        <table>
+            <tbody id="items">
+                <tr>
+                <td>YEAR(DATE)</td>
+                <td>Book Name</td>
+                <td>Publisher Name</td>
+                <td>Quantity</td>
+                <td>Total</td>
+                </tr>
+            </tbody>
+        </table>
+    </body> 
+</html>
