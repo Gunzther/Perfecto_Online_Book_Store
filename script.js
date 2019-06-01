@@ -45,6 +45,41 @@ app.get("/book_detail_rows_all", function(req, res) {
     }
   });
 });
+//for admin
+app.get("/book_detail_rows_checking_for_admin_1", function(req, res) {
+  connection.query("SELECT YEAR(DATE) as YearDate, BookName, PublisherName, sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total FROM  order_detail, book_detail, publishers WHERE order_detail.BookID = book_detail.BookID and book_detail.PublisherID = publishers.PublisherID GROUP BY BookName, PublisherName", function(error, rows, fields) {
+    if (error) {
+      console.log("Error in query");
+    } else {
+      res.send(rows);
+    }
+  });
+});
+app.get("/book_detail_rows_checking_for_admin_2", function(req, res) {
+  connection.query("SELECT YEAR(DATE) as YearDate, BookName, PublisherName"+
+  " FROM order_detail, book_detail, publishers"+
+  " WHERE book_detail.BookID NOT IN(SELECT BookID"+
+  " FROM order_detail)and book_detail.PublisherID = publishers.PublisherID"+
+  " GROUP BY YEAR(DATE), BookName, PublisherName", function(error, rows, fields) {
+    if (error) {
+      console.log("Error in query");
+    } else {
+      res.send(rows);
+    }
+  });
+});
+app.get("/book_detail_rows_checking_for_admin_3", function(req, res) {
+  connection.query("SELECT YEAR(DATE) as YearDate, Categories,  sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total"+
+  " FROM order_detail, book_detail"+
+  " WHERE order_detail.BookID = book_detail.BookID"+
+  " GROUP BY YEAR(Date), Categories", function(error, rows, fields) {
+    if (error) {
+      console.log("Error in query");
+    } else {
+      res.send(rows);
+    }
+  });
+});
 
 var main_web = "/book_detail_rows_";
 var Categories_book = [
