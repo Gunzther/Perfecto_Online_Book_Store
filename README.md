@@ -14,8 +14,6 @@ We recommend using this application with MySQL server for Microsoft Windows oper
 
 ## How to install
 
-    We reccomended for using this application in window operation system
-
 1. Clone project reposity. Go to your workspace and then clone the project.
 
    <pre>
