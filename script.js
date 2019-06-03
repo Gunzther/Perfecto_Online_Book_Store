@@ -15,7 +15,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "keep1234", //if need, put your password here
+    password: "", //if need, put your password here
     database: "perfectoDB"
   });
 }
