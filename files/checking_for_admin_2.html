@@ -1,55 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <script
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-    type="text/javascript"
-  ></script>
-  <script src="jquery-3.3.1.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(() => {
-      $.ajax({
-        url: "book_detail_rows_checking_for_admin_2/",
-        type: "GET",
-        dataType: "json",
-        success: data => {
-          var tr = "";
-          $.each(data, function(i, val) {
-            tr =
-              tr +
-              "<tr>" +
-              "<td>" +
-              val.YearDate +
-              "</td>" +
-              "<td>" +
-              val.BookName +
-              "</td>" +
-              "<td>" +
-              val.PublisherName +
-              "</td>" +
-              "</tr>";
-          });
-          console.log(tr);
-          $(tr).appendTo("tbody");
-        }
-      });
-    });
-  </script>
+  <link rel="stylesheet" href="/cssFiles/table-style.css" />
   <head>
-    <link rel="stylesheet" href="/cssFiles/table-style.css" />
     <title>For admin: Perfecto</title>
   </head>
 
   <body>
-    <h1>Report 2: Book which weren't sold in each year</h1>
-    <div id="book_detail_table"></div>
-    <table>
-      <tbody id="items">
-        <tr>
-          <th>YEAR(DATE)</th>
-          <th>Book Name</th>
-          <th>Publisher Name</th>
-        </tr>
-      </tbody>
-    </table>
+    <section id="welcome" class="tm-content-box tm-banner margin-b-10">
+      <div class="tm-banner-inner">
+        <img
+          id="banner-img"
+          src="img/Banner.png"
+          alt="Perfecto Online Book Storu"
+          style="width: 800px; margin-top: 50px;"
+        />
+      </div>
+    </section>
+    <h1>Admin Reports</h1>
+    <a href="/checking_for_admin_2_2018" class="tm-welcome-link tm-button"
+    >Report 2: book which weren't sold in each year -2018</a
+    >
+    <a href="/checking_for_admin_2_2019" class="tm-welcome-link tm-button"
+    >Report 2: book which weren't sold in each year -2019</a
+    >
   </body>
 </html>

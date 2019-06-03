@@ -15,7 +15,7 @@ function getConnection() {
   return mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "keep1234", //if need, put your password here
+    password: "", //if need, put your password here
     database: "perfectoDB"
   });
 }
@@ -62,22 +62,28 @@ app.get("/book_detail_rows_checking_for_admin_1", function(req, res) {
     }
   );
 });
-app.get("/book_detail_rows_checking_for_admin_2", function(req, res) {
+
+var year_checking = [2018, 2019];
+year_checking.forEach(element => {
+  app.get("/book_detail_rows_checking_for_admin_2_" + element, function(req, res) {
   connection.query(
-    "SELECT YEAR(DATE) as YearDate, BookName, PublisherName" +
-      " FROM order_detail, book_detail, publishers" +
-      " WHERE book_detail.BookID NOT IN(SELECT BookID" +
-      " FROM order_detail)and book_detail.PublisherID = publishers.PublisherID" +
-      " GROUP BY YEAR(DATE), BookName, PublisherName",
+    "SELECT BookName, PublisherName FROM book_detail, publishers " +
+    "WHERE BookName NOT IN (SELECT BookName " +
+    "FROM order_detail, book_detail " +
+    "WHERE order_detail.BookID = book_detail.BookID AND YEAR(DATE) = '" + element +"' " +
+    "GROUP BY BookName) AND book_detail.PublisherID = publishers.PublisherID " +
+    "GROUP BY BookName",
     function(error, rows, fields) {
       if (error) {
         console.log("Error in query3");
+        console.log(error)
       } else {
         res.send(rows);
       }
     }
   );
 });
+})
 app.get("/book_detail_rows_checking_for_admin_3", function(req, res) {
   connection.query(
     "SELECT YEAR(DATE) as YearDate, Categories,  sum(Quantity) as Quantity, sum(BookPrice*Quantity) as Total" +
@@ -115,8 +121,8 @@ Categories_book.forEach(element => {
     function(req, res) {
       // mysql here
       connection.query(
-        "SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM perfectoDB.book_detail, perfectoDB.authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " +
-          element,
+        "SELECT BookID, BookName, PenName, ISBN, BookPrice, Categories FROM book_detail, authors WHERE book_detail.AuthorID = authors.AuthorID and Categories = " +
+          element + " GROUP BY BookName",
         function(error, rows, fields) {
           if (error) {
             console.log("Error in query5");
